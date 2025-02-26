@@ -47,4 +47,27 @@ router.get('/search', async (req, res) => {
     }
 })
 
+//wildcard query
+
+router.get('/startswith', async (req, res) => {
+    try {
+        const result = await client.search({
+            index: indexName,
+            query: {
+                // prefix: {
+                //     name: "p"
+                // }
+                wildcard:{
+                    name:"p*"
+                }
+            },
+            size: 10
+        });
+        res.json(result.hits.hits);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
+
+
 module.exports = router;
